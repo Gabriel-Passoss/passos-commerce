@@ -3,9 +3,10 @@ import { Avatar, Box, Button, Flex, Grid, GridItem, HStack, Icon, Image, Input, 
 import { useEffect, useState } from 'react';
 import { AiOutlineSearch, AiOutlineShoppingCart } from 'react-icons/ai'
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper'
+import { Navigation, Pagination } from 'swiper'
 
 import fakestore from '../services/api'
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { ProductCard } from '../components/ProductCard/ProductCard';
@@ -19,17 +20,14 @@ export default function Home() {
     })
   }, [])
 
-  console.log(products)
-
-
   return (
-    <div>
+    <>
       <Head>
         <title>Passos Commerce</title>
       </Head>
 
       {/* Header */}
-      <Flex bg="#772EDB" h="6.5rem" w="100vw" align="center" justify="space-evenly">
+      <Flex bg="#772EDB" h="6.5rem" align="center" justify="space-evenly">
         <Flex align="center" mr="1rem">
           <HStack spacing="3rem">
             <Button variant="none">
@@ -59,17 +57,19 @@ export default function Home() {
       </Flex>
 
       {/* Slides */}
-      <Swiper modules={[Navigation]} navigation spaceBetween={0} slidesPerView={1} >
+      <Box>
+      <Swiper modules={[Navigation, Pagination]} navigation pagination spaceBetween={0} slidesPerView={1} >
         <SwiperSlide><Image src="assets/slide.png" /></SwiperSlide>
         <SwiperSlide><Image src="assets/slide.png" /></SwiperSlide>
       </Swiper>
+      </Box>
 
       <Flex flexDirection="column" mt="2rem" align="center" mb="2rem">
         <Text fontWeight="bold" fontSize="1.8rem">EM PROMOÇÃO</Text>
       </Flex>
 
-      <Flex justify="center">
-        <Grid templateColumns="repeat(5, 1fr)" gap={10} mb="2rem">
+      <Flex justify="center" overflow="hidden">
+        <Grid templateColumns="repeat(5, 1fr)" gap={10} mb="2rem" >
           {products.map((product: any, index: number) => (
             <GridItem key={index}>
               <ProductCard image={product.image} title={product.title} price={product.price} id={product.id} />
@@ -77,6 +77,6 @@ export default function Home() {
           ))}
         </Grid>
       </Flex>
-    </div>
+    </>
   )
 }
