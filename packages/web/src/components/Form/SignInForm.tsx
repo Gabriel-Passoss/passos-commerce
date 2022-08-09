@@ -1,3 +1,6 @@
+import { useContext } from 'react'
+import { AuthContext } from '../../contexts/AuthContext'
+
 import { ErrorMessage, Field, Form, Formik, } from 'formik'
 import * as yup from 'yup'
 
@@ -9,6 +12,8 @@ import { BsKey } from 'react-icons/bs'
 import { FcGoogle } from 'react-icons/fc'
 
 export default function SignInForm() {
+  const { signIn } = useContext(AuthContext)
+
   return (
     <Formik
       initialValues={{
@@ -21,8 +26,8 @@ export default function SignInForm() {
         email: yup.string().email("Endereço de email invalido").min(20, "Precisa ter pelo menos 20 caracteres").required("Esse campo é obrigatório"),
         password: yup.string().required("Esse campo é obrigatório")
       })}
-      onSubmit={(values) => {
-        console.log(values)
+      onSubmit={async (values) => {
+        await signIn(values)
       }}>
       <Form>
 
