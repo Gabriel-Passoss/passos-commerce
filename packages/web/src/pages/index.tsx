@@ -1,24 +1,23 @@
 import Head from 'next/head'
+import { GetServerSideProps } from 'next';
+import { useContext, useEffect, useState } from 'react';
+import { parseCookies } from 'nookies'
+
 import { Avatar, Box, Button, Flex, Grid, GridItem, HStack, Icon, Image, Input, InputGroup, InputLeftElement, Text } from '@chakra-ui/react'
-import { useEffect, useState } from 'react';
 import { AiOutlineSearch, AiOutlineShoppingCart } from 'react-icons/ai'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper'
 
-import fakestore from '../services/api'
+import { fakestore } from '../services/api'
+import { api } from '../services/api'
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { ProductCard } from '../components/ProductCard/ProductCard';
+import { AuthContext } from '../contexts/AuthContext';
 
-export default function Home() {
-  const [products, setProducts] = useState([])
-
-  useEffect(() => {
-    fakestore.get("/products").then(res => {
-      setProducts(res.data)
-    })
-  }, [])
+export default function Home({product}) {
+  // const { user } = useContext(AuthContext)
 
   return (
     <>
@@ -57,20 +56,17 @@ export default function Home() {
       </Flex>
 
       {/* Slides */}
-      <Box>
       <Swiper modules={[Navigation, Pagination]} navigation pagination spaceBetween={0} slidesPerView={1} >
         <SwiperSlide><Image src="assets/slide.png" /></SwiperSlide>
         <SwiperSlide><Image src="assets/slide.png" /></SwiperSlide>
       </Swiper>
-      </Box>
 
-      <Flex flexDirection="column" mt="2rem" align="center" mb="2rem">
-        <Text fontWeight="bold" fontSize="1.8rem">EM PROMOÇÃO</Text>
-      </Flex>
+      {/* Product Section */}
+      <Flex flexDirection="column" mt="2rem" align="center">
+        <Text fontWeight="bold" fontSize="1.8rem" mb="3rem">EM PROMOÇÃO</Text>
 
-      <Flex justify="center" overflow="hidden">
         <Grid templateColumns="repeat(5, 1fr)" gap={10} mb="2rem" >
-          {products.map((product: any, index: number) => (
+          {product.map((product: any, index: number) => (
             <GridItem key={index}>
               <ProductCard image={product.image} title={product.title} price={product.price} id={product.id} />
             </GridItem>
@@ -79,4 +75,24 @@ export default function Home() {
       </Flex>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const {['passos-commerce.token']: token} = parseCookies(context)
+  const {data}: any = await fakestore.get('/products')
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/register',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: {
+      product: data
+    }
+  }
 }

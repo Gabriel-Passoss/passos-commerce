@@ -21,7 +21,7 @@ export function ProductCard({price, title, id }: ProductProps) {
                 color: '#ccc',
                 textDecoration: 'none'
             }}>
-                <Heading textDecoration="none" fontSize="1rem" fontWeight="normal" maxWidth="15rem" overflowY="hidden">
+                <Heading textDecoration="none" fontSize="1rem" fontWeight="normal" maxWidth="15rem">
                     {title}
                 </Heading>
             </Link>
