@@ -23,13 +23,11 @@ export default function Header() {
    </InputGroup>
 
    <Flex align="center">
-     <HStack spacing="1rem">
-       <Text color="#E6E6E6" fontWeight="semibold">Bem vindo(a), Gabriel</Text>
-       <Avatar src="https://github.com/Gabriel-Passoss.png" h="3.5rem" w="3.5rem" />
+       <Text color="#E6E6E6" fontWeight="semibold" mr="1rem">Bem vindo(a), Gabriel</Text>
+       <Avatar src="https://github.com/Gabriel-Passoss.png" h="3.5rem" w="3.5rem" mr="2rem"/>
        <Button leftIcon={<AiOutlineShoppingCart />} colorScheme='purple' variant='solid'>
          Carrinho
        </Button>
-     </HStack>
 
    </Flex>
  </Flex>

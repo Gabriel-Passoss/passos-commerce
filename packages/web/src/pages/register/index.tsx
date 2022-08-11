@@ -1,4 +1,5 @@
 import { Box, Flex, Text, Button, Image, Link, useMediaQuery } from "@chakra-ui/react";
+import Head from 'next/head'
 import SignInForm from '../../components/Form/SignInForm';
 
 export default function Login() {
@@ -6,6 +7,9 @@ export default function Login() {
 
   return (
     <>
+      <Head>
+        <title>Cadastro - Passos Commerce</title>
+      </Head>
       {/* Header */}
       <Flex w="100vw" h="10vh" sx={isLargerThan ? { background: 'linear-gradient(90deg, rgba(119,46,219,1) 60%, rgba(255,255,255,1) 60%);' } : { background: '#772EDB' }} align="center" justify="space-between">
         <Image src="assets/logo.svg" h="2.8rem" w={{ md: "12.5rem", sm: "10rem", xsm: "9rem" }} ml="38px" />
@@ -18,7 +22,7 @@ export default function Login() {
         {/* Left side */}
         {isLargerThan ? <Box w="60vw" bg="#772EDB">
           <Flex flexDirection="column" align="center">
-            <Text fontSize={{ '2xl': "2.5rem", sm: "2rem" }} fontFamily="Inter" fontWeight="medium" textAlign="center" lineHeight="60px" color="#E6E6E6"  mb="60px" mt="100px">
+            <Text fontSize={{ '2xl': "2.5rem", sm: "2rem" }} fontFamily="Inter" fontWeight="medium" textAlign="center" lineHeight="60px" color="#E6E6E6" mb="60px" mt="100px">
               O maior e mais seguro site <br />para suas compras online
             </Text>
             <Image src="assets/hero.svg" w="55rem" h="33.125rem" />
@@ -30,7 +34,7 @@ export default function Login() {
         <Flex align="center" w="40vw" mt="60px" flexDirection="column" margin={isLargerThan ? null : '0 auto'}>
           <Text fontWeight="bold" fontSize="2.5rem" whiteSpace="nowrap" mb="5rem">Crie a sua conta</Text>
           <Flex flexDirection="column" justify="center">
-              <SignInForm />
+            <SignInForm />
           </Flex>
 
           <Flex flexDirection="column" align="flex-start">
