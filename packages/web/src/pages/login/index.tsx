@@ -1,6 +1,10 @@
-import { Box, Flex, Text, Button, Image, Link, useMediaQuery } from "@chakra-ui/react";
 import Head from 'next/head'
+import { GetServerSideProps } from "next/types";
+import { Box, Flex, Text, Button, Image, Link, useMediaQuery } from "@chakra-ui/react";
+import { parseCookies } from 'nookies'
+
 import LoginForm from "../../components/Forms/LoginForm";
+import { withSSRGuest } from '../../utils/withSSRGuest';
 
 export default function Login() {
   const [isLargerThan] = useMediaQuery('(min-width: 934px)')
@@ -40,16 +44,19 @@ export default function Login() {
           </Flex>
 
           <Flex flexDirection="column" align="flex-start" mt="4rem">
-          <Text mt="1rem" whiteSpace={isLargerThan ? null : "nowrap"}>Ao entrar, você concorda com nossa comunicação <br />e nossos termos de uso</Text>
-          <Text fontWeight="medium" mt="1rem">Ainda não possui uma conta?
-            <Link href="http://localhost:3000/register" color="#772EDB" ml="4px">Cadastre-se aqui</Link>
-          </Text>
+            <Text mt="1rem" whiteSpace={isLargerThan ? null : "nowrap"}>Ao entrar, você concorda com nossa comunicação <br />e nossos termos de uso</Text>
+            <Text fontWeight="medium" mt="1rem">Ainda não possui uma conta?
+              <Link href="http://localhost:3000/register" color="#772EDB" ml="4px">Cadastre-se aqui</Link>
+            </Text>
+          </Flex>
         </Flex>
-
-        </Flex>
-
-       
       </Flex>
     </>
   )
 }
+
+export const getServerSideProps = withSSRGuest(async (context) => {
+  return {
+    props: {}
+  }
+})

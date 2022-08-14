@@ -36,6 +36,5 @@ export default function Header() {
 
    </Flex>
  </Flex>
-
-  )
-}
+ 
+)}

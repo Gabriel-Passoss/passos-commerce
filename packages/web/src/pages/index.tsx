@@ -1,23 +1,18 @@
 import Head from 'next/head'
-import { GetServerSideProps } from 'next';
-import { parseCookies } from 'nookies'
 
 import { Flex, Grid, GridItem, Image, Text, useBreakpointValue } from '@chakra-ui/react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper'
 
 import { fakestore } from '../services/api'
-
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { ProductCard } from '../components/ProductCard/ProductCard';
-import { AuthContext } from '../contexts/AuthContext';
 import Header from '../components/Header/Header';
-import { useContext } from 'react';
+import { withSSRAuth } from '../utils/withSSRAuth';
 
 export default function Home({product}) {
   const gridColumns = useBreakpointValue({base: 3, md: 5})
-  const { user } = useContext(AuthContext)
 
   return (
     <>
@@ -50,12 +45,13 @@ export default function Home({product}) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps = withSSRAuth(async (context) => {
   const {data}: any = await fakestore.get('/products')
-
+  
   return {
     props: {
       product: data
     }
   }
-}
+})
+
