@@ -7,11 +7,11 @@ construindo uma loja virtual de ponta a ponta
 
 ## Screenshots
 
-![App Screenshot](https://prnt.sc/fWviSfHxsWYN)
+![App Screenshot](https://media.discordapp.net/attachments/668834854376439844/1008484082470105188/unknown.png?width=1386&height=671)
 
-![App Screenshot](https://prnt.sc/SvWFcNFiabLU)
+![App Screenshot](https://media.discordapp.net/attachments/668834854376439844/1008484135460946011/unknown.png?width=1382&height=671)
 
-![App Screenshot](https://prnt.sc/7qfHmGOK9_Eq)
+![App Screenshot](https://media.discordapp.net/attachments/668834854376439844/1008484200653008906/unknown.png?width=1378&height=671)
 
 
 ## Funcionalidades
