@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { AuthContext } from '../../contexts/AuthContext'
 
 import { ErrorMessage, Field, Form, Formik, } from 'formik'
@@ -11,6 +11,7 @@ import { BsKey } from 'react-icons/bs'
 import { FcGoogle } from 'react-icons/fc'
 
 export default function SignInForm() {
+  const [ isLoading, setIsLoading ] = useState(false)
   const { signIn } = useContext(AuthContext)
 
   return (
@@ -24,6 +25,7 @@ export default function SignInForm() {
         password: yup.string().required("Esse campo é obrigatório")
       })}
       onSubmit={async (values) => {
+        setIsLoading(true)
         await signIn(values)
       }}>
       <Form>
@@ -59,7 +61,7 @@ export default function SignInForm() {
         </Text>
 
         <Stack display="flex" flexDirection="column" alignItems="center" mt="2.5rem" spacing="1.5rem">
-          <Button type="submit" colorScheme="purple" borderRadius="25px" w={{ '2xl': "25rem", md: "20rem", sm: "20rem", xsm: "20rem" }} h="3rem">Criar conta</Button>
+          <Button type="submit" isLoading={isLoading} loadingText="Entrando na conta" colorScheme="purple" borderRadius="25px" w={{ '2xl': "25rem", md: "20rem", sm: "20rem", xsm: "20rem" }} h="3rem">Entrar na conta</Button>
           <Box w="18.7rem" h="1px" bg="#c2c2c2" />
           <Button bg="#f0f0f0" borderRadius="25px" w="25rem" h="3rem" mb="1rem" leftIcon={<FcGoogle size={27} />}>Sign with Google</Button>
         </Stack>

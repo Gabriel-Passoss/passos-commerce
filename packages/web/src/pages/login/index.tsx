@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import { GetServerSideProps } from "next/types";
 import { Box, Flex, Text, Button, Image, Link, useMediaQuery } from "@chakra-ui/react";
 import { parseCookies } from 'nookies'
 
