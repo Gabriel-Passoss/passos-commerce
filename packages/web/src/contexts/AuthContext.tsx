@@ -1,61 +1,92 @@
-import { createContext, useEffect, useState } from 'react'
-import { setCookie, parseCookies } from 'nookies'
+import { createContext, useState, ReactNode, useEffect } from 'react'
 import Router from 'next/router'
+import { setCookie, parseCookies, destroyCookie } from 'nookies'
 
-import { recoverUserInfo, signInRequest } from '../services/auth'
 import { api } from '../services/api'
 
 type User = {
   name: string,
-  avatar_url: string,
+  email: string,
+  permissions: string[],
+  roles: string[]
 }
 
-type SignInData = {
-  name: string,
+type SignInCredentials = {
   email: string,
   password: string
 }
 
-
-type AuthContextType = {
-  isAuthenticated: boolean,
-  user: User,
-  signIn: (data: SignInData) => Promise<void>
-
+type AuthContextData = {
+  signIn(credentials: SignInCredentials): Promise<void>
+  isAuthenticated: boolean
+  user: User
 }
-export const AuthContext = createContext({} as AuthContextType)
 
-export function AuthProvider({children}) {
-  const [user, setUser] = useState<User | null>(null)
+type AuthProviderProps = {
+  children: ReactNode
+}
+
+export function signOut() {
+  destroyCookie(undefined, 'passos-commerce.token')
+  destroyCookie(undefined, 'passos-commerce.refreshToken')
+
+  Router.push('/login')
+}
+
+export const AuthContext = createContext({} as AuthContextData)
+
+export function AuthProvider({ children }: AuthProviderProps) {
+  const [user, setUser] = useState<User>(null)
   const isAuthenticated = !!user
 
   useEffect(() => {
     const { 'passos-commerce.token': token } = parseCookies()
 
     if (token) {
-      recoverUserInfo().then(response => setUser(response.user))
+      api.get('/me').then(response => {
+        const { email, permissions, roles, name } = response.data
+        console.log(response)
+
+        setUser({ email, permissions, roles, name })
+      }).catch(() => {
+       signOut()
+      })
     }
   }, [])
 
-  async function signIn({ name, email, password }: SignInData) {
-    const { token, user } = await signInRequest({
-      name,
-      email,
-      password
-    })
-    
-    setCookie(undefined, 'passos-commerce.token', token, {
-      maxAge: 60 * 60 * 1, // 1 hour
-    })
+  async function signIn({ email, password }: SignInCredentials) {
+    try {
+      const response = await api.post('/sessions', {
+        email,
+        password
+      })
 
-    api.defaults.headers['Authorization'] = `Bearer ${token}`
+      const { token, refreshToken, permissions, roles, name } = response.data
 
-    setUser(user)
-    Router.push('/')
+      setCookie(undefined, 'passos-commerce.token', token, {
+        maxAge: 60 * 60 * 24 * 30, // 30 days
+        path: '/'
+      })
+      setCookie(undefined, 'passos-commerce.refreshToken', refreshToken)
+
+      setUser({
+        email,
+        permissions,
+        roles,
+        name
+      })
+
+      api.defaults.headers['Authorization'] = `Bearer ${token}`
+
+      Router.push('/')
+
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, signIn, user }}>
+    <AuthContext.Provider value={{ signIn, isAuthenticated, user }}>
       {children}
     </AuthContext.Provider>
   )

@@ -4,6 +4,7 @@ export type CreateSessionDTO = {
 }
 
 type UserData = {
+  name: string,
   password: string;
   permissions: string[];
   roles: string[];

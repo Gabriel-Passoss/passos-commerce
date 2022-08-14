@@ -19,9 +19,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider theme={theme}>
       <AuthProvider>
-
           <Component {...pageProps} />
-
       </AuthProvider>
     </ChakraProvider>
   )

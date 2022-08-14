@@ -7,17 +7,17 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper'
 
 import { fakestore } from '../services/api'
-import { api } from '../services/api'
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { ProductCard } from '../components/ProductCard/ProductCard';
 import { AuthContext } from '../contexts/AuthContext';
 import Header from '../components/Header/Header';
+import { useContext } from 'react';
 
 export default function Home({product}) {
   const gridColumns = useBreakpointValue({base: 3, md: 5})
-  // const { user } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
 
   return (
     <>
@@ -51,17 +51,7 @@ export default function Home({product}) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const {['passos-commerce.token']: token} = parseCookies(context)
   const {data}: any = await fakestore.get('/products')
-
-  if (!token) {
-    return {
-      redirect: {
-        destination: '/register',
-        permanent: false
-      }
-    }
-  }
 
   return {
     props: {
