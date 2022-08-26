@@ -23,8 +23,8 @@ export default function Home({product}) {
       <Header />
       {/* Slides */}
       <Swiper modules={[Navigation, Pagination]} navigation pagination spaceBetween={0} slidesPerView={1} >
-        <SwiperSlide><Image src="assets/slide.png" /></SwiperSlide>
-        <SwiperSlide><Image src="assets/slide.png" /></SwiperSlide>
+        <SwiperSlide><Image src="assets/slide.jpg" /></SwiperSlide>
+        <SwiperSlide><Image src="assets/slide.jpg" /></SwiperSlide>
       </Swiper>
 
       {/* Product Section */}
