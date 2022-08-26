@@ -8,18 +8,18 @@ const productsRepository = new ProductsRepository
 const createProductService = new CreateProductService(productsRepository)
 
 //Create product route
-productsRoutes.post('/', (req, res) => {
+productsRoutes.post('/', async (req, res) => {
   const { name, description, price } = req.body
 
-  createProductService.execute({ name, description, price })
+  const product = await createProductService.execute({ name, description, price })
 
-  res.json({message: 'Product created successfully'}).send()
+  res.json(product)
 })
 
 //List all products route
 productsRoutes.get('/', async (req, res) => {
   const products = await productsRepository.list()
-  
+
   res.json(products)
 })
 

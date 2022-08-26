@@ -15,10 +15,14 @@ class CreateProductService {
     const productAlreadyExists = await this.ProductsRepository.findByName(name)
 
     if (productAlreadyExists) {
-      throw new Error(`Category ${name} already exists`)
-    }
+      const message = `Product ${name} already exists`
+      return {message}
 
-    this.ProductsRepository.create({ name, description, price })
+    }else {
+      const message = `Product ${name} created successfully`
+      this.ProductsRepository.create({ name, description, price })
+      return {message}
+    }
   }
 }
 
