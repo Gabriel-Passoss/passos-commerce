@@ -1,18 +1,22 @@
 -- CreateTable
 CREATE TABLE "Products" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "price" REAL NOT NULL
+    "price" DOUBLE PRECISION NOT NULL,
+
+    CONSTRAINT "Products_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Users" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "image_URL" TEXT
+    "image_URL" TEXT,
+
+    CONSTRAINT "Users_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
