@@ -11,10 +11,13 @@ datasource db {
 }
 
 model Products {
-  id          Int    @id @default(autoincrement())
-  name        String @unique
-  description String
-  price       Float
+  id           Int     @id @default(autoincrement())
+  name         String  @unique
+  description  String
+  price        Int
+  originalname String
+  key          String
+  image_URL    String?
 }
 
 model Users {

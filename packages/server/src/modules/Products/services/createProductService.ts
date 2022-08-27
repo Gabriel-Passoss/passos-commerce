@@ -3,7 +3,10 @@ import { ProductsRepository } from '../repositories/productsRepository'
 interface Request {
   name: string,
   description: string,
-  price: number
+  price: number,
+  originalname: string,
+  key: string,
+  image_URL: string
 }
 
 class CreateProductService {
@@ -11,7 +14,7 @@ class CreateProductService {
 
   }
 
-  async execute({ name, description, price }: Request) {
+  async execute({ name, description, price, originalname, key, image_URL }: Request) {
     const productAlreadyExists = await this.ProductsRepository.findByName(name)
 
     if (productAlreadyExists) {
@@ -20,7 +23,7 @@ class CreateProductService {
 
     }else {
       const message = `Product ${name} created successfully`
-      this.ProductsRepository.create({ name, description, price })
+      this.ProductsRepository.create({ name, description, price, originalname, key, image_URL })
       return {message}
     }
   }
