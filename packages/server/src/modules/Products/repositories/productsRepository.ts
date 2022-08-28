@@ -15,6 +15,7 @@ class ProductsRepository {
   //function to create a product
   async create({ name, description, price, originalname, key, image_URL }: CreateProductDTO) {
     const priceToNumber = Number(price)
+    
     await prisma.products.create({
       data: {
         name,
@@ -30,8 +31,7 @@ class ProductsRepository {
   //function to list all products
   async list() {
     const allProducts = await prisma.products.findMany()
-    console.log(allProducts)
-    return await prisma.products.findMany()
+    return allProducts
   }
 
   //function to find and product by name
@@ -55,7 +55,7 @@ class ProductsRepository {
   }
 
   //Make error handling and delete image in the future
-  async deletePost(id: string) {
+  async deleteProduct(id: string) {
     const idToNumber = Number(id)
     const productDeleted = await prisma.products.delete({
       where: {
