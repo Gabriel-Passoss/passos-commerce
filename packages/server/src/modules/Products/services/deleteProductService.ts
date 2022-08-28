@@ -1,4 +1,6 @@
 import { PrismaClient } from '@prisma/client'
+import aws from 'aws-sdk'
+
 import { ProductsRepository } from '../repositories/productsRepository'
 
 const prisma = new PrismaClient()
@@ -6,6 +8,10 @@ const prisma = new PrismaClient()
 interface Request {
   id: string
 }
+
+const s3 = new aws.S3({
+  region: 'us-east-1'
+})
 
 class DeleteProductService {
   constructor(private ProductsRepository: ProductsRepository) {
@@ -25,6 +31,10 @@ class DeleteProductService {
 
     } else {
       this.ProductsRepository.deleteProduct(id)
+      await s3.deleteObject({
+        Bucket: 'passos-commerce',
+        Key: productAlreadyExists.key,
+      }).promise()
       const message = `Product deleted successfully`
       return { message }
     }
