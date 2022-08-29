@@ -4,8 +4,8 @@ import { signOut } from '../contexts/AuthContext'
 
 
 
-export const fakestore = axios.create({
-  baseURL: 'https://fakestoreapi.com'
+export const passosAPI = axios.create({
+  baseURL: 'http://localhost:3333'
 })
 
 let isRefreshing = false

@@ -6,7 +6,7 @@ import { FiShoppingCart } from 'react-icons/fi'
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi';
 
 import { ProductCard } from '../../components/ProductCard/ProductCard';
-import { fakestore } from '../../services/api';
+import { passosAPI } from '../../services/api';
 import Header from '../../components/Header/Header';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -15,15 +15,17 @@ import 'swiper/css/pagination';
 interface ProductProps {
   product: {
     description: string,
-    title: string,
+    name: string,
     price: number,
-    id: number
+    id: number,
+    image_URL: string
   },
   related: {
     description: string
-    title: string,
+    name: string,
     price: number,
-    map: any
+    map: any,
+    image_URL: string
   }
 }
 
@@ -84,7 +86,7 @@ export default function Product({ product, related }: ProductProps) {
           <Grid w="100%" templateColumns={['1fr', '1fr 1fr']} gap={['15px', '30px']}>
             <GridItem w="100%">
               <Box borderRadius="10px" border="3px solid #ebebeb" overflow="hidden" mb="20px">
-                <Image src="/assets/iphone.png" alt="Iphone" />
+                <Image src={product.image_URL} alt="Iphone" />
               </Box>
               <Grid w="100%" templateColumns={['1fr 1fr 1fr 1fr']} gap={['15px', '30px']}>
                 <GridItem>
@@ -107,8 +109,8 @@ export default function Product({ product, related }: ProductProps) {
                   <Text textTransform="uppercase" color="#fff" fontSize="0.7rem" p="3px 10px" fontWeight="bold">Em estoque</Text>
                 </Flex>
                 <Box mt="10px">
-                  <Text fontWeight="semibold" fontSize="2rem" lineHeight="2.5rem">{product.title}</Text>
-                  <Text color="#999999" fontSize="0.7rem" mt="0.5rem" textTransform="uppercase">Código: 395465</Text>
+                  <Text fontWeight="semibold" fontSize="2rem" lineHeight="2.5rem">{product.name}</Text>
+                  <Text color="#999999" fontSize="0.7rem" mt="0.5rem" textTransform="uppercase">Código: {product.id}</Text>
                 </Box>
                 <Flex mt="3.5rem" align="center">
                   <Image src="/assets/brand.png" alt="Apple" width="80px" height="80px" />
@@ -146,7 +148,7 @@ export default function Product({ product, related }: ProductProps) {
           <Swiper modules={[Pagination]} spaceBetween={7} slidesPerView={perView} onSwiper={setSwiper}>
             {related.map((product: any, index: number) => (
               <SwiperSlide key={index}>
-                <ProductCard image={product.image} title={product.title} price={product.price} id={product.id} />
+                <ProductCard image={product.image_URL} title={product.title} price={product.price} id={product.id} />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -158,7 +160,7 @@ export default function Product({ product, related }: ProductProps) {
 
 export async function getStaticPaths() {
 
-  const { data } = await fakestore.get('/products');
+  const { data } = await passosAPI.get('/products');
 
   const paths = data.map((product: any) => ({
     params: { id: product.id.toString() },
@@ -168,8 +170,8 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: any) {
-  const { data } = await fakestore.get(`/products/${params.id}`);
-  const { data: related } = await fakestore.get(`/products?limit=10`);
+  const { data } = await passosAPI.get(`/products/${params.id}`);
+  const { data: related } = await passosAPI.get(`/products?limit=10`);
 
   return {
     props: {

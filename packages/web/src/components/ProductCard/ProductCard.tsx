@@ -12,11 +12,11 @@ export function ProductCard({ image, price, title, id }: ProductProps) {
         <Flex direction="column">
             <Flex>
                 <Link href={`/product/${id}`}>
-                    <Image src="/assets/iphone.png" />
+                    <Image src={image} />
                 </Link>
             </Flex>
             <Flex direction="column" ml="1.5rem">
-                <Text textTransform="uppercase" fontSize="0.6rem" mt="5px" mb="5px" color="#999">código: 395465</Text>
+                <Text textTransform="uppercase" fontSize="0.6rem" mt="5px" mb="5px" color="#999">id: {id}</Text>
                 <Link href={`/product/${id}`} transition="0.3s" _hover={{
                     color: '#ccc',
                     textDecoration: 'none'

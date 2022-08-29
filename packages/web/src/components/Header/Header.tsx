@@ -5,13 +5,6 @@ import { AiOutlineSearch, AiOutlineShoppingCart } from "react-icons/ai";
 import { api } from "../../services/AuthClient";
 
 export default function Header() {
-  const [username, setUsername] = useState('')
-  
-  useEffect(() => {
-    api.get('/me').then(response => {
-      setUsername(response.data.name)
-    })
-  }, [])
 
   return (
    <Flex bg="#772EDB" h="6.5rem" align="center" justify="space-around">
@@ -34,7 +27,7 @@ export default function Header() {
    </InputGroup>
 
    <Flex align="center">
-       <Text color="#E6E6E6" fontWeight="semibold" mr="1rem">Bem vindo(a), {username}</Text>
+       <Text color="#E6E6E6" fontWeight="semibold" mr="1rem">Bem vindo(a), Gabriel</Text>
        <Avatar src="https://github.com/Gabriel-Passoss.png" h="3.5rem" w="3.5rem" mr="2rem"/>
        <Button leftIcon={<AiOutlineShoppingCart />} colorScheme='purple' variant='solid'>
          Carrinho

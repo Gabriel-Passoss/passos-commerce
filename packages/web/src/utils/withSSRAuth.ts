@@ -5,14 +5,14 @@ export function withSSRAuth<P>(fn: GetServerSideProps<P>) {
   return async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<P>> => {
     const cookies = parseCookies(context)
 
-    if (!cookies['passos-commerce.token']) {
-      return {
-        redirect: {
-          destination: '/login',
-          permanent: false
-        }
-      }
-    }
+    // if (!cookies['passos-commerce.token']) {
+    //   return {
+    //     redirect: {
+    //       destination: '/login',
+    //       permanent: false
+    //     }
+    //   }
+    // }
 
     return await fn(context)
   }

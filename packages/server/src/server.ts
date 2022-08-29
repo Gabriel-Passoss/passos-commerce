@@ -2,7 +2,8 @@ require("dotenv").config()
 import express from 'express'
 import path from 'path'
 
-import { productsRoutes } from './routes/products.routes'
+import { productsRouter } from './routes/products.routes'
+import { usersRouter } from './routes/users.routes'
 
 const app = express()
 
@@ -14,6 +15,8 @@ app.get('/', (req, res) => {
   return res.json({message: "Hello world"})
 })
 
-app.use('/products', productsRoutes)
+app.use('/products', productsRouter)
+
+app.use('/users', usersRouter)
 
 app.listen(3333)

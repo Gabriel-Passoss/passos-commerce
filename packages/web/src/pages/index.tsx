@@ -4,7 +4,7 @@ import { Flex, Grid, GridItem, Image, Text, useBreakpointValue } from '@chakra-u
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper'
 
-import { fakestore } from '../services/api'
+import { passosAPI } from '../services/api'
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { ProductCard } from '../components/ProductCard/ProductCard';
@@ -12,7 +12,7 @@ import Header from '../components/Header/Header';
 import { withSSRAuth } from '../utils/withSSRAuth';
 
 export default function Home({product}) {
-  const gridColumns = useBreakpointValue({base: 3, md: 5})
+  console.log(product)
 
   return (
     <>
@@ -35,7 +35,7 @@ export default function Home({product}) {
         <Grid templateColumns={{base: "repeat(3, 1fr)", md: "repeat(5, 1fr)"}} gap={10} mb="2rem" >
           {product.map((product: any, index: number) => (
             <GridItem key={index}>
-              <ProductCard image={product.image} title={product.title} price={product.price} id={product.id} />
+              <ProductCard image={product.image_URL} title={product.name} price={product.price} id={product.id} />
             </GridItem>
           ))}
         </Grid>
@@ -46,7 +46,7 @@ export default function Home({product}) {
 }
 
 export const getServerSideProps = withSSRAuth(async (context) => {
-  const {data}: any = await fakestore.get('/products')
+  const {data}: any = await passosAPI.get('/products')
   
   return {
     props: {
